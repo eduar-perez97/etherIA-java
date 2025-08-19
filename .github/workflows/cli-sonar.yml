@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - master
   pull_request:
     branches:
       - main
@@ -15,7 +16,8 @@ jobs:
 
     steps:
       # 1. Checkout del repo
-        uses: actions/checkout@v4OA
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0  # necesario para análisis correcto
 
@@ -34,7 +36,7 @@ jobs:
       # 4. Analizar con SonarCloud
       - name: SonarCloud Scan
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
              -Dsonar.projectKey=eduar-perez97_etherIA-java \
