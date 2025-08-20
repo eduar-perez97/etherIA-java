@@ -18,5 +18,6 @@ public class TitleRecordDto {
 	private LocalDate dateCreate;
 	private String idUser;
 	private String uuid;
+	private String agent;
 	private List<RecordDto> recordDto;
 }

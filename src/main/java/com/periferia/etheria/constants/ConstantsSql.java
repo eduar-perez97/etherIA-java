@@ -14,7 +14,7 @@ public enum ConstantsSql {
 	VAR_SENTENCIA_SQL_EXIST_BY_MODULE("SELECT 1 FROM etheria.title_record WHERE uuid = ?"),
 	VAR_SENTENCIA_SQL_GET_TITLE_RECORD("SELECT tr.* FROM etheria.title_record tr WHERE uuid = ? AND id_user = ?"),
 	VAR_SENTENCIA_SQL_SAVE_USER("INSERT INTO etheria.users (cedula, first_name, last_name, email, password, role, image) VALUES (?, ?, ?, ?, ?, ?, ?)"),
-	VAR_SENTENCIA_SQL_GET_CHAT("SELECT tr.id AS id_title, tr.title, tr.date_create, tr.id_user, tr.uuid, r.id AS id_record, r.question, r.response FROM etheria.record_users ru "
+	VAR_SENTENCIA_SQL_GET_CHAT("SELECT tr.id AS id_title, tr.title, tr.date_create, tr.id_user, tr.uuid, tr.agent, r.id AS id_record, r.question, r.response FROM etheria.record_users ru "
 			+ "INNER JOIN etheria.record r on ru.id_record = r.id "
 			+ "INNER JOIN etheria.title_record tr on ru.id_title_record = tr.id "
 			+ "WHERE tr.id_user = ?"),
