@@ -45,7 +45,7 @@ class UserServiceTest {
 	private UserEntity userEntity;
 
 	@BeforeEach
-	void setup() {
+	void setUp() {
 		userDto = new UserDto();
 		userDto.setCedula("123456");
 		userDto.setFirstName("Test");
@@ -59,7 +59,7 @@ class UserServiceTest {
 		userEntity.setCedula("123");
 		userEntity.setFirstName("Test");
 		userEntity.setLastName("User");
-		userEntity.setEmail("test@example.com");
+		userEntity.setEmail("prueba@periferia.com");
 		userEntity.setPassword("$2a$10$hashedPassword");
 		userEntity.setRole("USUARIO");
 		userEntity.setImage("nuevaimag3ndepr4va");
@@ -100,7 +100,7 @@ class UserServiceTest {
 
 		assertEquals(200, response.getStatusCode());
 		assertNotNull(response.getData().getToken());
-		assertEquals("test@example.com", response.getData().getEmail());
+		assertEquals("prueba@periferia.com", response.getData().getEmail());
 	}
 
 	@Test
@@ -114,13 +114,8 @@ class UserServiceTest {
 	@Test
 	void testLoginUserWithEntraIDSuccess() {
 		userDto.setAuthType("ENTRAID");
-		UserDto entraUser = new UserDto();
-		entraUser.setEmail("entra@example.com");
-		entraUser.setFirstName("Entra");
-		entraUser.setLastName("User");
-		entraUser.setCedula("456");
 
-		when(authEntraID.authenticatorEntraID(userDto.getEmail())).thenReturn(entraUser);
+		when(authEntraID.authenticatorEntraID(userDto.getEmail())).thenReturn(userDto);
 		when(jwtService.generateToken(anyString())).thenReturn("fake-token");
 
 		Response<UserDto> response = userService.loginUser(userDto);
@@ -132,26 +127,18 @@ class UserServiceTest {
 
 	@Test
 	void testUpdateDataUserAsAdmin() {
-	    String token = "Bearer fake.jwt.token";
-	    UserDto adminUser = new UserDto();
-	    adminUser.setRole("ADMINISTRADOR");
-	    
-	    UserEntity userEntityUpdate = new UserEntity(null, null, null, null, null, null, null);
-	    userEntityUpdate.setEmail("test@example.com");
-	    userEntityUpdate.setCedula("123456789");
-	    
-	    UserDto userDtoUpdate = new UserDto();
-	    userDtoUpdate.setEmail("test@example.com");
-	    userDtoUpdate.setCedula("123456789");
+		String token = "Bearer fake.jwt.token";
+		userDto.setRole("ADMINISTRADOR");
 
-	    when(jwtService.jwtDecoder("fake.jwt.token")).thenReturn(adminUser);
-	    when(jwtService.validateToken("fake.jwt.token")).thenReturn(true);
-	    when(userRepository.findByEmail(userDto.getEmail())).thenReturn(Optional.of(userEntity));
-	    when(userRepository.update(any(UserEntity.class))).thenReturn(userEntity);
+		when(jwtService.jwtDecoder("fake.jwt.token")).thenReturn(userDto);
+		when(jwtService.validateToken("fake.jwt.token")).thenReturn(true);
+		when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(userEntity));
+		when(userRepository.update(any(UserEntity.class))).thenReturn(userEntity);
 
-	    Response<UserDto> response = userService.updateDataUser(userDto, token);
+		Response<UserDto> response = userService.updateDataUser(userDto, token);
 
-	    assertEquals(200, response.getStatusCode());
+		assertEquals(200, response.getStatusCode());
+		assertEquals("prueba@periferia.com", response.getData().getEmail());
 	}
 
 
