@@ -25,6 +25,14 @@ jobs:
       - name: Show Jacoco report folder
         run: ls -R target/site/jacoco || echo "Jacoco folder not found"
 
+      - name: Show Jacoco XML preview
+        run: |
+          if [ -f target/site/jacoco/jacoco.xml ]; then
+            head -20 target/site/jacoco/jacoco.xml
+          else
+            echo "jacoco.xml not found!"
+          fi
+
       - name: SonarCloud Scan
         run: mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
           -Dsonar.projectKey=eduar-perez97_etherIA-java \
