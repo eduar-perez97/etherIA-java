@@ -18,7 +18,7 @@
         <sonar.organization>eduar-perez97</sonar.organization>
         <sonar.projectKey>eduar-perez97_etherIA-java</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
- 
+  
          <!-- Reporte de Jacoco (para cobertura) -->
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
