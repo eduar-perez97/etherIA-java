@@ -2,44 +2,40 @@ name: Build and Analyze
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
+          cache: maven
 
-      - name: Build with Maven (tests + jacoco)
-        run: mvn -B verify
+      - name: Build & Test (generate JaCoCo)
+        run: mvn -B clean verify -DskipTests=false
 
-      - name: Show Jacoco report folder
+      - name: Show JaCoCo report folder
         run: ls -R target/site/jacoco || echo "Jacoco folder not found"
 
-      - name: Show Jacoco XML preview
+      - name: Preview jacoco.xml
         run: |
-          if [ -f target/site/jacoco/jacoco.xml ]; then
-            head -20 target/site/jacoco/jacoco.xml
-          else
-            echo "jacoco.xml not found!"
-          fi
+          test -f target/site/jacoco/jacoco.xml && head -40 target/site/jacoco/jacoco.xml || echo "jacoco.xml not found"
 
       - name: SonarCloud Scan
-        run: mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-          -Dsonar.projectKey=eduar-perez97_etherIA-java \
-          -Dsonar.organization=eduar-perez97 \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-          -Dsonar.sources=src/main/java \
-          -Dsonar.tests=src/test/java \
-          -Dsonar.java.binaries=target/classes \
-          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN:  ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dsonar.projectKey=eduar-perez97_etherIA-java \
+            -Dsonar.organization=eduar-perez97 \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.junit.reportPaths=target/surefire-reports
