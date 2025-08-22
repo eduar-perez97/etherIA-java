@@ -214,7 +214,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.5.2</version>
 				<configuration>
-					<forkCount>1</forkCount>
+					<forkCount>0</forkCount>
 					<reuseForks>true</reuseForks>
 					<argLine>-Xmx1024m</argLine>
 				</configuration>
