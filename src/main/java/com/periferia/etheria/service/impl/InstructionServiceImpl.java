@@ -27,7 +27,7 @@ public class InstructionServiceImpl implements InstructionService{
 	}
 
 	@Override
-	public Response<?> interactueInstruction(InstructionDto instructionDto, String token) {
+	public Response<Object> interactueInstruction(InstructionDto instructionDto, String token) {
 		try {
 			token = token.substring(7);
 			if(Boolean.TRUE.equals(jwtService.validateToken(token))) {

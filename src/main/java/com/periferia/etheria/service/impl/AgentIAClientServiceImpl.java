@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.periferia.etheria.constants.Constants;
 import com.periferia.etheria.dto.FilesDto;
 import com.periferia.etheria.dto.InstructionDto;
@@ -42,8 +43,8 @@ public class AgentIAClientServiceImpl implements AgentIAClientService {
 			ArrayNode filesArray = mapper.createArrayNode();
 			for(FilesDto fileDto: fileBase64) {
 				ObjectNode fileObject = mapper.createObjectNode();
-				fileObject.put("file", fileDto.getFile());
-				fileObject.put("fileName", fileDto.getFileName());
+				fileObject.set("file", TextNode.valueOf(fileDto.getFile()));
+				fileObject.set("fileName", TextNode.valueOf(fileDto.getFileName()));
 				filesArray.add(fileObject);
 			}
 			requestBody.set("files", filesArray);
@@ -51,8 +52,8 @@ public class AgentIAClientServiceImpl implements AgentIAClientService {
 			ArrayNode instructionsArray = mapper.createArrayNode();
 			for(InstructionDto instruction: instructions) {
 				ObjectNode instructionObject = mapper.createObjectNode();
-				instructionObject.put("intruction", instruction.getInstruction());
-				instructionObject.put("description", instruction.getDescription());
+				instructionObject.set("intruction", TextNode.valueOf(instruction.getInstruction()));
+				instructionObject.set("description", TextNode.valueOf(instruction.getDescription()));
 				instructionsArray.add(instructionObject);
 			}
 			requestBody.set("instructions", instructionsArray);
