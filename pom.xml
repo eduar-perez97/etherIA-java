@@ -21,11 +21,13 @@
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
 		<!-- Ruta del XML de jaCoCo -->
-		<sonar.coverage.jacoco.xmlReportPaths>
-			${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+
+		<!-- Version para JaCoCo -->
+		<jacoco.version>0.8.12</jacoco.version>
 
 		<!-- Encadenar JaCoCo -> Surefire -->
-		<jacoco.argLine></jacoco.argLine>
+		<jacoco.argLine>-javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}.jar=destfile=${project.build.directory}/jacoco.exec</jacoco.argLine>
 	</properties>
 
 	<dependencies>
@@ -209,26 +211,11 @@
 				</executions>
 			</plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.5.2</version>
-				<configuration>
-					<forkCount>0</forkCount>
-					<reuseForks>true</reuseForks>
-					<argLine>-Xmx1024m</argLine>
-				</configuration>
-			</plugin>
-
 			<!-- JaCoCo (cobertura)-->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.12</version>
-				<configuration>
-					<!-- Se inyecta a Surefire -->
-					<propertyName>jacoco.argLine</propertyName>
-				</configuration>
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
@@ -261,8 +248,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.5.2</version>
 				<configuration>
-					<useModulePath>false</useModulePath>
-					<argLine>${jacoco.argLine} ${surefireArgLine}</argLine>
+					<useModulePath>false</useModulePath>	
 				</configuration>
 			</plugin>
 
