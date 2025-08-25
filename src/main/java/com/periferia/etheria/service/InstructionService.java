@@ -5,6 +5,6 @@ import com.periferia.etheria.util.Response;
 
 public interface InstructionService {
 
-	public Response<?> interactueInstruction(InstructionDto instructionDto, String token);
+	public Response<Object> interactueInstruction(InstructionDto instructionDto, String token);
 	
 }

@@ -13,7 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DBConfig {
 
-	public DBConfig() {} //Método constructor vácio intencionalmente 
+	public DBConfig() {
+		//Método constructor vácio intencionalmente
+	} 
 
 	public Connection getConnection() {
 		Connection connection = null;

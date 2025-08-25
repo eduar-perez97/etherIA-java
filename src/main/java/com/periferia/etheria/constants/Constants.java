@@ -10,6 +10,9 @@ public class Constants {
 
 	private Constants() {}
 
+	//Agents
+	public static final String CLAUDE = "claude-agent\", \"us.anthropic.claude-3-7-sonnet-20250219-v1:0";
+	
 	//Security
 	public static final String ARN_SECRET = "arn:aws:secretsmanager:us-east-1:850179601728:secret:dev-etheria-rds-secrets-uaqT3d";	
 	public static final String ERROR_CREDENCIALES = "La contraseña y el correo son obligatorios ";
@@ -110,11 +113,11 @@ public class Constants {
 	//Model_agent 
 	protected static final Map<String, String> modelsAgents = new HashMap<>();
 	static {
-		modelsAgents.put("claude-agent", "us.anthropic.claude-3-7-sonnet-20250219-v1:0");
-		modelsAgents.put("web-agent", "us.anthropic.claude-3-7-sonnet-20250219-v1:0");
-		modelsAgents.put("agno-assist", "us.anthropic.claude-3-7-sonnet-20250219-v1:0");
-		modelsAgents.put("finance-agent", "us.anthropic.claude-3-7-sonnet-20250219-v1:0");
-		modelsAgents.put("code-agent", "us.anthropic.claude-3-7-sonnet-20250219-v1:0");
+		modelsAgents.put("claude-agent", CLAUDE);
+		modelsAgents.put("web-agent", CLAUDE);
+		modelsAgents.put("agno-assist", CLAUDE);
+		modelsAgents.put("finance-agent", CLAUDE);
+		modelsAgents.put("code-agent", CLAUDE);
 	}
 
 	public static final Map<String, String> getModelsAgents() {
