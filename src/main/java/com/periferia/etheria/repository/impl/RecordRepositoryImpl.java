@@ -52,6 +52,7 @@ public class RecordRepositoryImpl implements RecordRepository {
 					titleRecordEntity.setDateCreate(resultSet.getDate("date_create").toLocalDate());
 					titleRecordEntity.setIdUser(resultSet.getString("id_user"));
 					titleRecordEntity.setUuid(resultSet.getString("uuid"));
+					titleRecordEntity.setAgent(resultSet.getString("agent"));
 					titleRecordEntity.setRecordEntity(new ArrayList<>());
 					titleMap.put(resultSet.getLong("id_title"), titleRecordEntity);
 					titleRecords.add(titleRecordEntity);

@@ -88,6 +88,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Response<UserDto> updateDataUser(UserDto userDto, String token) {
+		
 		log.info(Constants.LOGIN_SERVICE,Thread.currentThread().getStackTrace()[1].getMethodName());
 		try {
 			UserDto userToken = jwtService.jwtDecoder(token.substring(7));

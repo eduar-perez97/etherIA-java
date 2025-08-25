@@ -24,7 +24,7 @@ public class Constants {
 	public static final String ERROR_INVALID_KEY = "Error: Clave inválida utilizada para la desencriptación: ";
 	public static final String ERROR_BAD_PADDING = "Error: Relleno incorrecto durante la desencriptación: ";
 	public static final String ERROR_ILLEGAL_BLOCK_SIZE = "Error: Tamaño de bloque ilegal durante la desencriptación: ";
-	public static final String DECRYPT_PASSWORD = "Error: Ocurrió un error inesperado durante la desencriptación: ";
+	public static final String ERROR_DECRYPT_PASSWORD = "Error: Ocurrió un error inesperado durante la desencriptación: ";
 	public static final String TOKEN_EXPIRATED = "Error: El token ha expirado: ";
 	public static final String TOKEN_DECOUDER = "Error: No se puede decodificar el token: ";
 	public static final String ERROR_CONTRASENA = "Se requiere la contraseña para la consulta ";

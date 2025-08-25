@@ -17,6 +17,7 @@ public class TitleRecordUtil {
 		response.setDateCreate(titleRecordEntity.getDateCreate());
 		response.setIdUser(titleRecordEntity.getIdUser());
 		response.setUuid(titleRecordEntity.getUuid());
+		response.setAgent(titleRecordEntity.getAgent());
 		if(titleRecordEntity.getRecordEntity() != null) {
 			response.setRecordDto(RecordUtil.convertEntityToDtoList(titleRecordEntity.getRecordEntity()));
 		}
@@ -32,6 +33,7 @@ public class TitleRecordUtil {
 			titleRecordDto.setDateCreate(titleRecordEntity.getDateCreate());
 			titleRecordDto.setIdUser(titleRecordEntity.getIdUser());
 			titleRecordDto.setUuid(titleRecordEntity.getUuid());
+			titleRecordDto.setAgent(titleRecordEntity.getAgent());
 			titleRecordDto.setRecordDto(RecordUtil.convertEntityToDtoList(titleRecordEntity.getRecordEntity()));
 			titleRecordResponse.add(titleRecordDto);
 		}
