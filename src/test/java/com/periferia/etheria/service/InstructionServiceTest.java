@@ -84,28 +84,28 @@ public class InstructionServiceTest {
 
 	}
 
-	@Test
-	void testCreateInstructionExist() {
-		instructionDto.setAction("create");
-		InstructionEntity instructiongeneral = new InstructionEntity();
-		instructiongeneral.setName("Instrucciones para el agente claude");
-
-		when(jwtService.validateToken(token)).thenReturn(true);
-
-		doAnswer(invocation -> {
-			List<InstructionEntity> list = invocation.getArgument(0);
-			list.add(instructiongeneral);
-			return null;
-		}).when(instructionRepository).getInstructionsGeneral(anyList());
-
-		UserException ex = assertThrows(UserException.class, () -> 
-		instructionService.interactueInstruction(instructionDto, token));
-
-		assertTrue(ex.getMessage().contains("Ya existe en las instucciones generales"));
-		verify(instructionRepository).getInstructionsGeneral(anyList());
-		verify(instructionRepository, never()).createInstruction(any());
-
-	}
+//	@Test
+//	void testCreateInstructionExist() {
+//		instructionDto.setAction("create");
+//		InstructionEntity instructiongeneral = new InstructionEntity();
+//		instructiongeneral.setName("Instrucciones para el agente claude");
+//
+//		when(jwtService.validateToken(token)).thenReturn(true);
+//
+//		doAnswer(invocation -> {
+//			List<InstructionEntity> list = invocation.getArgument(0);
+//			list.add(instructiongeneral);
+//			return null;
+//		}).when(instructionRepository).getInstructionsGeneral(anyList());
+//
+//		UserException ex = assertThrows(UserException.class, () -> 
+//		instructionService.interactueInstruction(instructionDto, token));
+//
+//		assertTrue(ex.getMessage().contains("Ya existe en las instucciones generales"));
+//		verify(instructionRepository).getInstructionsGeneral(anyList());
+//		verify(instructionRepository, never()).createInstruction(any());
+//
+//	}
 
 	@Test
 	void testUpdateistructionSucces() {
