@@ -35,8 +35,8 @@ jobs:
 
         run: |
           mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.projectKey=etheria_EtherIA-java \
-            -Dsonar.organization=etheria \
+            -Dsonar.projectKey=etheria-java_etheria \
+            -Dsonar.organization=etheria-jav \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.sources=src/main/java \
