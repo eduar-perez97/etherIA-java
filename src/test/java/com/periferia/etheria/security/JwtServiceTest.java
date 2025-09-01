@@ -12,7 +12,9 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.periferia.etheria.dto.UserDto;
 import com.periferia.etheria.exception.UserException;
@@ -20,7 +22,9 @@ import com.periferia.etheria.exception.UserException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-public class JwtServiceTest {
+@ExtendWith(MockitoExtension.class)
+class JwtServiceTest {
+
 	@Mock
 	private JwtService jwtService;
 	private static final String SECRET = "0123456789_0123456789_0123456789_012345";

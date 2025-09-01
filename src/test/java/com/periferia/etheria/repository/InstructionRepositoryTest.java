@@ -26,7 +26,7 @@ import com.periferia.etheria.exception.UserException;
 import com.periferia.etheria.repository.impl.InstructionRepositoryImpl;
 
 @ExtendWith(MockitoExtension.class)
-public class InstructionRepositoryTest {
+class InstructionRepositoryTest {
 
 	@Mock
 	private DBConfig dbConection;

@@ -28,7 +28,7 @@ import com.periferia.etheria.service.impl.AgentQueryServiceImpl;
 import com.periferia.etheria.util.Response;
 
 @ExtendWith(MockitoExtension.class)
-public class AgentQueryServiceTest {
+class AgentQueryServiceTest {
 
 	@Mock
 	private JwtService jwtService;

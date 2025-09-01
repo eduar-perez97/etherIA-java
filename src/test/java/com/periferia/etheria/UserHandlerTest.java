@@ -12,13 +12,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.*;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class UserHandlerTest {
+class UserHandlerTest {
 	@Mock
 	private DBConfig dbConfig;
 	@Mock
@@ -87,7 +88,7 @@ public class UserHandlerTest {
 		InstructionEntity instruction = new InstructionEntity();
 		instruction.setName("test");
 		instruction.setGeneral(Boolean.FALSE);
-		
+
 		when(preparedStatement.executeUpdate()).thenThrow(new SQLException("insert fail"));
 
 		assertThrows(UserException.class, () -> repository.createInstruction(instruction));
@@ -119,17 +120,17 @@ public class UserHandlerTest {
 
 	@Test
 	void testUpdateInstruction_Failure() throws Exception {
-	    InstructionEntity instruction = new InstructionEntity();
-	    instruction.setId(10L);
-	    instruction.setName("Test name");
-	    instruction.setInstruction("Some SQL instruction");
-	    instruction.setDescription("Some description");
-	    instruction.setGeneral(Boolean.FALSE);
-	    instruction.setIdUser("user123");
+		InstructionEntity instruction = new InstructionEntity();
+		instruction.setId(10L);
+		instruction.setName("Test name");
+		instruction.setInstruction("Some SQL instruction");
+		instruction.setDescription("Some description");
+		instruction.setGeneral(Boolean.FALSE);
+		instruction.setIdUser("user123");
 
-	    when(preparedStatement.executeUpdate()).thenThrow(new SQLException("update fail"));
+		when(preparedStatement.executeUpdate()).thenThrow(new SQLException("update fail"));
 
-	    assertThrows(UserException.class, () -> repository.updateInstruction(instruction));
+		assertThrows(UserException.class, () -> repository.updateInstruction(instruction));
 	}
 
 	@Test
@@ -176,8 +177,10 @@ public class UserHandlerTest {
 
 	@Test
 	void testGetInstructionsGeneral_Failure() throws Exception {
+		when(dbConfig.getConnection()).thenReturn(connection);
+		when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
 		when(preparedStatement.executeQuery()).thenThrow(new SQLException("query fail"));
 
-		assertThrows(UserException.class, () -> repository.getInstructionsGeneral(new java.util.ArrayList<>()));
+		assertThrows(UserException.class, () -> repository.getInstructionsGeneral(new ArrayList<>()));
 	}
 }

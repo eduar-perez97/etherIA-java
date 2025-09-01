@@ -31,7 +31,7 @@ import com.periferia.etheria.repository.impl.RecordRepositoryImpl;
 import com.periferia.etheria.repository.impl.RecordUserRepositoryImpl;
 
 @ExtendWith(MockitoExtension.class)
-public class RecordUserRepositoryTest {
+class RecordUserRepositoryTest {
 
 	@Mock
 	private DBConfig dataBaseConnection;
@@ -51,7 +51,7 @@ public class RecordUserRepositoryTest {
 	private RecordEntity recordEntity;
 
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp() {
 		titleRecordUserEntity = new TitleRecordEntity();
 		titleRecordUserEntity.setAgent("Claude-agent");
 		titleRecordUserEntity.setId(1L);

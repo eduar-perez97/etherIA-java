@@ -32,7 +32,7 @@ import com.periferia.etheria.exception.UserException;
 import com.periferia.etheria.repository.impl.RecordRepositoryImpl;
 
 @ExtendWith(MockitoExtension.class)
-public class RecordRepositoryTest {
+class RecordRepositoryTest {
 
 	@Mock
 	private DBConfig dbConfig;
@@ -90,7 +90,7 @@ public class RecordRepositoryTest {
 		List<TitleRecordEntity> titleRecordResponse = recordRepositoryImpl.getRecords(titleRecordEntity.getIdUser());
 
 		assertNotNull(titleRecordResponse);
-		assertEquals(titleRecordEntity.getIdUser(), "1088970080");
+		assertEquals("1088970080", titleRecordEntity.getIdUser());
 
 	}
 
@@ -130,10 +130,9 @@ public class RecordRepositoryTest {
 		when(resultSet.getString("question")).thenReturn(recordEntity.getQuestion());
 		when(resultSet.getString("response")).thenReturn(recordEntity.getResponse());
 
-		RecordEntity recordEntity = recordRepositoryImpl.getRecord(1L);
+		RecordEntity response = recordRepositoryImpl.getRecord(1L);
 
-		assertNotNull(recordEntity);
-		assertEquals(recordEntity.getId(), recordEntity.getId());
+		assertNotNull(response);
 
 	}
 
@@ -172,7 +171,6 @@ public class RecordRepositoryTest {
 		when(resultSet.next()).thenReturn(false);
 
 		assertThrows(UserException.class, () -> recordRepositoryImpl.updateTitleRecord(99L, "xxx"));
-
 
 	}
 
