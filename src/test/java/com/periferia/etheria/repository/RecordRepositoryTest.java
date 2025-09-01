@@ -91,6 +91,7 @@ class RecordRepositoryTest {
 
 		assertNotNull(titleRecordResponse);
 		assertEquals("1088970080", titleRecordEntity.getIdUser());
+
 	}
 
 	@Test
@@ -105,6 +106,7 @@ class RecordRepositoryTest {
 		assertNotNull(response);
 		assertEquals(1L, response.getId());
 		assertEquals(recordEntity.getQuestion(), response.getQuestion());		
+
 	}
 
 	@Test
