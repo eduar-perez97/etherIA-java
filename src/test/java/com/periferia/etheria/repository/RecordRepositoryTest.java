@@ -91,7 +91,6 @@ class RecordRepositoryTest {
 
 		assertNotNull(titleRecordResponse);
 		assertEquals("1088970080", titleRecordEntity.getIdUser());
-
 	}
 
 	@Test
@@ -106,7 +105,6 @@ class RecordRepositoryTest {
 		assertNotNull(response);
 		assertEquals(1L, response.getId());
 		assertEquals(recordEntity.getQuestion(), response.getQuestion());		
-
 	}
 
 	@Test
@@ -118,7 +116,6 @@ class RecordRepositoryTest {
 		boolean response = recordRepositoryImpl.existById(titleRecordEntity.getIdUser());
 
 		assertTrue(response);
-
 	}
 
 	@Test
@@ -133,7 +130,6 @@ class RecordRepositoryTest {
 		RecordEntity response = recordRepositoryImpl.getRecord(1L);
 
 		assertNotNull(response);
-
 	}
 
 	@Test
@@ -143,7 +139,6 @@ class RecordRepositoryTest {
 		when(preparedStatement.executeUpdate()).thenReturn(1);
 
 		assertDoesNotThrow(() -> recordRepositoryImpl.deleteById(titleRecordEntity.getUuid()));
-
 	}
 
 	@Test
@@ -161,7 +156,6 @@ class RecordRepositoryTest {
 
 		assertNotNull(updated);
 		assertEquals("Nuevo Título", updated.getTitle());
-
 	}
 
 	@Test
@@ -170,8 +164,8 @@ class RecordRepositoryTest {
 		when(preparedStatement.executeQuery()).thenReturn(resultSet);
 		when(resultSet.next()).thenReturn(false);
 
-		assertThrows(UserException.class, () -> recordRepositoryImpl.updateTitleRecord(99L, "xxx"));
-
+		assertThrows(UserException.class, () -> 
+		recordRepositoryImpl.updateTitleRecord(99L, "xxx"));
 	}
 
 }
