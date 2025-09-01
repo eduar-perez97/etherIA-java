@@ -176,7 +176,7 @@ class UserHandlerTest {
 	}
 
 	@Test
-	void testGetInstructionsGeneral_Failure() throws Exception {
+	void testGetInstructionsGeneral_Failure() throws SQLException {
 		when(dbConfig.getConnection()).thenReturn(connection);
 		when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
 		when(preparedStatement.executeQuery()).thenThrow(new SQLException("query fail"));

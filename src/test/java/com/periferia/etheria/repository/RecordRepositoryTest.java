@@ -51,7 +51,7 @@ class RecordRepositoryTest {
 	private RecordEntity recordEntity;
 
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp() {
 		titleRecordEntity = new TitleRecordEntity();
 		titleRecordEntity.setId(1L);
 		titleRecordEntity.setTitle("Titulo nuevo");
