@@ -3,24 +3,34 @@ package com.periferia.etheria;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.periferia.etheria.security.ReadSecret;
 import com.periferia.etheria.dto.UserDto;
-import com.periferia.etheria.entity.UserEntity;
+import com.periferia.etheria.security.ReadSecret;
+import com.periferia.etheria.service.impl.UserServiceImpl;
+import com.periferia.etheria.util.Response;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class UserHandlerFullTest {
 
 	private static MockedStatic<ReadSecret> readSecretMock;
+
+	@Mock
+	private UserServiceImpl userServiceImpl;
+
 	private UserHandler handler;
+
 	private ObjectMapper mapper;
-	private UserDto userDto;
-	private UserEntity userEntity;
 
 	@BeforeAll
 	static void mockSecrets() {
@@ -38,24 +48,7 @@ class UserHandlerFullTest {
 	void setUp() {
 		handler = new UserHandler();
 		mapper = new ObjectMapper();
-
-		userDto = new UserDto();
-		userDto.setCedula("123456");
-		userDto.setFirstName("Test");
-		userDto.setLastName("User");
-		userDto.setEmail("prueba@periferia.com");
-		userDto.setPassword("password");
-		userDto.setRole("USUARIO");
-		userDto.setAuthType("LOCAL");
-
-		userEntity = new UserEntity(null, null, null, null, null, null, null);
-		userEntity.setCedula("123");
-		userEntity.setFirstName("Test");
-		userEntity.setLastName("User");
-		userEntity.setEmail("prueba@periferia.com");
-		userEntity.setPassword("$2a$10$hashedPassword");
-		userEntity.setRole("USUARIO");
-		userEntity.setImage("nuevaimag3ndepr4va");
+		handler.userServiceImpl = userServiceImpl;
 	}
 
 	private APIGatewayProxyRequestEvent buildRequest(String action, Object data, String token) throws Exception {
@@ -71,7 +64,6 @@ class UserHandlerFullTest {
 	void testRegister_MissingFields() throws Exception {
 		var request = buildRequest("register", Map.of("email", "test@test.com"), null);
 		var response = handler.handleRequest(request, (Context) null);
-
 		assertEquals(400, response.getStatusCode());
 		assertNotNull(response);
 	}
@@ -80,16 +72,40 @@ class UserHandlerFullTest {
 	void testLogin_MissingFields() throws Exception {
 		var request = buildRequest("login", Map.of("email", "test@test.com"), null);
 		var response = handler.handleRequest(request, null);
-
 		assertEquals(400, response.getStatusCode());
 		assertNotNull(response);
+	}
+
+	@Test
+	void testLogin_Success() throws Exception {
+		UserDto userDto = new UserDto("123456", "Test", "User", "test@test.com", "password", "USUARIO", "fakeImage", "LOCAL");
+		Response<UserDto> mockResponse = new Response<UserDto>(null, null, null);
+		mockResponse.setStatusCode(200);
+		mockResponse.setData(userDto);
+		mockResponse.setMessage("Login successful");
+
+		when(userServiceImpl.loginUser(any(UserDto.class))).thenReturn(mockResponse);
+
+		var request = buildRequest("login", Map.of(
+				"cc", "123456",
+				"firstName", "Test",
+				"lastName", "User",
+				"email", "test@test.com",
+				"password", "password",
+				"role", "USUARIO",
+				"image", "fakeImage",
+				"authType", "LOCAL"
+				), null);
+
+		var response = handler.handleRequest(request, null);
+		assertEquals(200, response.getStatusCode());
+		assertTrue(response.getBody().contains("Login successful"));
 	}
 
 	@Test
 	void testQueryAgent_MissingFields() throws Exception {
 		var request = buildRequest("queryAgent", Map.of("question", "hola"), "Bearer token");
 		var response = handler.handleRequest(request, null);
-
 		assertEquals(400, response.getStatusCode());
 		assertNotNull(response.getBody());
 	}
@@ -98,7 +114,6 @@ class UserHandlerFullTest {
 	void testGetRecords_MissingFields() throws Exception {
 		var request = buildRequest("getRecords", Map.of(), "Bearer token");
 		var response = handler.handleRequest(request, null);
-
 		assertEquals(400, response.getStatusCode());
 	}
 
@@ -106,7 +121,6 @@ class UserHandlerFullTest {
 	void testInstruction_MissingFields() throws Exception {
 		var request = buildRequest("instructions/general", Map.of("name", "inst1"), "Bearer token");
 		var response = handler.handleRequest(request, null);
-
 		assertEquals(400, response.getStatusCode());
 	}
 
@@ -114,7 +128,6 @@ class UserHandlerFullTest {
 	void testDeleteHistory_MissingFields() throws Exception {
 		var request = buildRequest("deleteHistory", Map.of(), "Bearer token");
 		var response = handler.handleRequest(request, null);
-
 		assertEquals(400, response.getStatusCode());
 	}
 
@@ -122,7 +135,6 @@ class UserHandlerFullTest {
 	void testUpdateTitle_MissingFields() throws Exception {
 		var request = buildRequest("updateTitle", Map.of("id", "1"), "Bearer token");
 		var response = handler.handleRequest(request, null);
-
 		assertEquals(400, response.getStatusCode());
 	}
 
@@ -130,38 +142,13 @@ class UserHandlerFullTest {
 	void testUpdateUser_MissingFields() throws Exception {
 		var request = buildRequest("updateUser", Map.of("cc", "123"), "");
 		var response = handler.handleRequest(request, null);
-
 		assertEquals(400, response.getStatusCode());
-	}
-
-	@Test
-	void testUpdateUser_Success() throws Exception {
-		var request = buildRequest(
-				"updateUser",
-				Map.of(
-						"cc", userDto.getCedula(),
-						"firstName", userDto.getFirstName(),
-						"lastName", userDto.getLastName(),
-						"email", userDto.getEmail(),
-						"password", userDto.getPassword(),
-						"role", userDto.getRole(),
-						"image", "img.png",
-						"authType", userDto.getAuthType()
-						),
-				"Bearer fakeToken"
-				);
-
-		var response = handler.handleRequest(request, null);
-
-		assertNotNull(response);
-		assertTrue(response.getStatusCode() == 200 || response.getStatusCode() == 400);
 	}
 
 	@Test
 	void testInvalidAction() throws Exception {
 		var request = buildRequest("not_exist", Map.of(), null);
 		var response = handler.handleRequest(request, null);
-
 		assertEquals(400, response.getStatusCode());
 		assertTrue(response.getBody().contains("Acción no válida"));
 	}
@@ -170,9 +157,7 @@ class UserHandlerFullTest {
 	void testJsonParseError() {
 		APIGatewayProxyRequestEvent request = new APIGatewayProxyRequestEvent();
 		request.setBody("{invalid-json}");
-
 		var response = handler.handleRequest(request, null);
-
 		assertEquals(500, response.getStatusCode());
 		assertTrue(response.getBody().contains("Error interno"));
 	}

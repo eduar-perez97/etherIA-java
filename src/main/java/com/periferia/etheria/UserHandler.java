@@ -34,7 +34,7 @@ import java.util.Map;
 public class UserHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
 	private final ObjectMapper mapper = new ObjectMapper();
-	private final UserServiceImpl userServiceImpl;
+	UserServiceImpl userServiceImpl;
 	private final AgentQueryService agentQueryService;
 	private final RecordServiceImpl recordServiceImpl;
 	private final InstructionServiceImpl instructionService;
