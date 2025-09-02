@@ -2,15 +2,23 @@ package com.periferia.etheria.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
+import software.amazon.awssdk.services.secretsmanager.SecretsManagerClientBuilder;
 import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRequest;
 import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueResponse;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class ReadSecretTest {
 
     private static MockedStatic<SecretsManagerClient> clientStaticMock;
@@ -28,8 +36,14 @@ class ReadSecretTest {
 
     @BeforeEach
     void setUp() {
-        mockClient = Mockito.mock(SecretsManagerClient.class);
-        clientStaticMock.when(SecretsManagerClient::create).thenReturn(mockClient);
+        mockClient = mock(SecretsManagerClient.class);
+
+        SecretsManagerClientBuilder mockBuilder = mock(SecretsManagerClientBuilder.class);
+        when(mockBuilder.region(any(Region.class))).thenReturn(mockBuilder);
+        when(mockBuilder.credentialsProvider(any(DefaultCredentialsProvider.class))).thenReturn(mockBuilder);
+        when(mockBuilder.build()).thenReturn(mockClient);
+
+        clientStaticMock.when(SecretsManagerClient::builder).thenReturn(mockBuilder);
     }
 
     @Test
@@ -42,12 +56,11 @@ class ReadSecretTest {
                 .secretString(secretJson)
                 .build();
 
-        Mockito.when(mockClient.getSecretValue(any(GetSecretValueRequest.class)))
+        when(mockClient.getSecretValue(any(GetSecretValueRequest.class)))
                 .thenReturn(mockResponse);
 
         String result = ReadSecret.getSecret("JWT_SECRET");
-        if(result == null) result = "fakeSecret123";
-        
+
         assertNotNull(result);
         assertEquals("fakeSecret123", result);
     }
@@ -62,7 +75,7 @@ class ReadSecretTest {
                 .secretString(secretJson)
                 .build();
 
-        Mockito.when(mockClient.getSecretValue(any(GetSecretValueRequest.class)))
+        when(mockClient.getSecretValue(any(GetSecretValueRequest.class)))
                 .thenReturn(mockResponse);
 
         String result = ReadSecret.getSecret("JWT_SECRET");
@@ -72,7 +85,7 @@ class ReadSecretTest {
 
     @Test
     void testGetSecret_Exception() {
-        Mockito.when(mockClient.getSecretValue(any(GetSecretValueRequest.class)))
+        when(mockClient.getSecretValue(any(GetSecretValueRequest.class)))
                 .thenThrow(new RuntimeException("AWS error"));
 
         String result = ReadSecret.getSecret("JWT_SECRET");
