@@ -19,15 +19,24 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AuthEntraID {
 
-	private final HttpClient client = HttpClient.newBuilder()
-			.version(HttpClient.Version.HTTP_1_1)
-			.connectTimeout(Duration.ofSeconds(5))
-			.build();
+	private final HttpClient client;
+
+	public AuthEntraID() {
+		this.client = HttpClient.newBuilder()
+				.version(HttpClient.Version.HTTP_1_1)
+				.connectTimeout(Duration.ofSeconds(5))
+				.build();
+	}
+
+	public AuthEntraID(HttpClient client) {
+		this.client = client;
+	}	
 
 	public UserDto authenticatorEntraID(String email) {
 
 		try {
 			String endpointEntraID = System.getenv("URL_ENTRAID");
+			if(endpointEntraID == null) endpointEntraID = System.getProperty("URL_ENTRAID");
 			ObjectMapper mapper = new ObjectMapper();
 			ObjectNode rootNode = mapper.createObjectNode();
 			ObjectNode userDtoNode = mapper.createObjectNode();
