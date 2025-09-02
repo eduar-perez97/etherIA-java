@@ -1,8 +1,5 @@
 package com.periferia.etheria.constants;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import lombok.Getter;
 
 @Getter
@@ -10,9 +7,6 @@ public class Constants {
 
 	private Constants() {}
 
-	//Agents
-	public static final String CLAUDE = "claude-agent\", \"us.anthropic.claude-3-7-sonnet-20250219-v1:0";
-	
 	//Security
 	public static final String ARN_SECRET = "arn:aws:secretsmanager:us-east-1:850179601728:secret:dev-etheria-rds-secrets-uaqT3d";	
 	public static final String ERROR_CREDENCIALES = "La contraseña y el correo son obligatorios ";
@@ -31,7 +25,7 @@ public class Constants {
 	public static final String TOKEN_EXPIRATED = "Error: El token ha expirado: ";
 	public static final String TOKEN_DECOUDER = "Error: No se puede decodificar el token: ";
 	public static final String ERROR_CONTRASENA = "Se requiere la contraseña para la consulta ";
-	
+
 	public static final String ERROR_SQL_GET_USER_EMAIL = "Error SQL: Al obtener el usuario por correo electrónico: ";
 	public static final String ERROR_SQL_USER_EXIST = "Error SQL: Al verificar si el usuario existe por cédula: ";
 	public static final String ERROR_SQL_SAVE_USER = "Error SQL: Al guardar el usuario en la base de datos: ";
@@ -57,7 +51,7 @@ public class Constants {
 	public static final String ERROR_REGISTER = "Error registrando al usuario: ";
 	public static final String ERROR_LOGIN = "Error en login: ";
 	public static final String ERROR_UPDATEUSER = "Error editando la información del usuario: ";
-	
+
 
 	//Object-user
 	public static final String QUESTION = "question";
@@ -76,7 +70,7 @@ public class Constants {
 	public static final String IMAGE = "image";
 	public static final String AUTHTYPE = "authType";
 	public static final String TOOLS = "tools";
-	
+
 
 	//Object-instruction
 	public static final String ID = "id";
@@ -86,7 +80,7 @@ public class Constants {
 	public static final String GENERAL = "general";
 	public static final String ID_USER = "idUser";
 	public static final String ACTION = "action";
-	
+
 	//Logs-Service
 	public static final String LOGIN_SERVICE = "Ingresa al servicio de: {}";
 	public static final String LOGIN_SQL = "Ingresa a la consulta de: {}";
@@ -109,19 +103,5 @@ public class Constants {
 	public static final String RESPONSE_CONTROL_ALLOW_METHODS = "OPTIONS,POST";
 	public static final String ACCES_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
 	public static final String RESPONSE_CONTROL_ALLOW_HEADERS = "Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token";
-
-	//Model_agent 
-	protected static final Map<String, String> modelsAgents = new HashMap<>();
-	static {
-		modelsAgents.put("claude-agent", CLAUDE);
-		modelsAgents.put("web-agent", CLAUDE);
-		modelsAgents.put("agno-assist", CLAUDE);
-		modelsAgents.put("finance-agent", CLAUDE);
-		modelsAgents.put("code-agent", CLAUDE);
-	}
-
-	public static final Map<String, String> getModelsAgents() {
-		return modelsAgents;
-	}
 
 }

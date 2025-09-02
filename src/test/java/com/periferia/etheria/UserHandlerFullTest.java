@@ -21,7 +21,6 @@ class UserHandlerFullTest {
 
     @BeforeAll
     static void mockSecrets() {
-        // Simula que siempre hay un secreto en pruebas
         readSecretMock = Mockito.mockStatic(ReadSecret.class);
         readSecretMock.when(() -> ReadSecret.getSecret("JWT_SECRET"))
                 .thenReturn("fakeSecretForTests");
@@ -34,7 +33,7 @@ class UserHandlerFullTest {
 
     @BeforeEach
     void setUp() {
-        handler = new UserHandler(); // ya no lanza NullPointerException
+        handler = new UserHandler();
         mapper = new ObjectMapper();
     }
 
