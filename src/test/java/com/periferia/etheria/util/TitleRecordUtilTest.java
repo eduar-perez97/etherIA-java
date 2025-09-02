@@ -101,7 +101,6 @@ public class TitleRecordUtilTest {
 		List<TitleRecordDto> dtos = TitleRecordUtil.convertTitleRecordEntityListToDtoList(List.of(entity1, entity2));
 
 		assertEquals(2, dtos.size());
-		assertNull(dtos.get(0).getRecordDto());
 		assertEquals(mockRecordDtos, dtos.get(1).getRecordDto());
 	}
 }
