@@ -50,7 +50,7 @@ class JwtServiceTest {
 
 	@Test
 	void testJwtDecoder_Success() {
-		String payload = "{\"blob\":\"Correo: juan@example.com Nombres: Juan Apellidos: Pérez Cedula: 123456 Rol: ADMIN\",\"iat\":1700000000}";
+		String payload = "{\"blob\":\"Correo: juan@example.com Nombres: Juan Apellidos: Perez Cedula: 123456 Rol: ADMIN\",\"iat\":1700000000}";
 
 		Key key = new SecretKeySpec(SECRET.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
 
@@ -64,7 +64,7 @@ class JwtServiceTest {
 		assertNotNull(user);
 		assertEquals("123456", user.getCedula());
 		assertEquals("Juan", user.getFirstName());
-		assertEquals("Pérez", user.getLastName());
+		assertEquals("Perez", user.getLastName());
 		assertEquals("juan@example.com", user.getEmail());
 		assertEquals("ADMIN", user.getRole());
 	}
