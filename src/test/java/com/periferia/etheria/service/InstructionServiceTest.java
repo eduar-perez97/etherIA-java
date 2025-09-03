@@ -29,7 +29,7 @@ import com.periferia.etheria.service.impl.InstructionServiceImpl;
 import com.periferia.etheria.util.Response;
 
 @ExtendWith(MockitoExtension.class)
-public class InstructionServiceTest {
+class InstructionServiceTest {
 
 	@Mock
 	private InstructionRepository instructionRepository;
@@ -63,7 +63,7 @@ public class InstructionServiceTest {
 
 		Response<Object> response = instructionService.interactueInstruction(instructionDto, token);
 
-		assertEquals(response.getStatusCode(), 200);
+		assertEquals(200, response.getStatusCode());
 		assertTrue(response.getMessage().contains("con exito"));
 		assertEquals(true, response.getData());
 		verify(instructionRepository).deleteInstruction(instructionDto.getId(), instructionDto.getIdUser());

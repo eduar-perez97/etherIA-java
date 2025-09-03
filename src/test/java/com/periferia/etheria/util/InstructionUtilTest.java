@@ -13,7 +13,7 @@ import com.periferia.etheria.dto.InstructionDto;
 import com.periferia.etheria.entity.InstructionEntity;
 
 @ExtendWith(MockitoExtension.class)
-public class InstructionUtilTest {
+class InstructionUtilTest {
 
 	@Test
 	void testConvertDtoToEntity() {

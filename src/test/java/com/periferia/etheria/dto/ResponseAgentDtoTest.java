@@ -19,11 +19,11 @@ class ResponseAgentDtoTest {
 		// Arrange
 		ResponseAgentDto dto = new ResponseAgentDto();
 		TitleRecordDto title = new TitleRecordDto();
-		RecordDto record = new RecordDto(null, null, null);
+		RecordDto recordDto = new RecordDto(null, null, null);
 
 		// Act
 		dto.setTitleDto(List.of(title));
-		dto.setRecordDto(List.of(record));
+		dto.setRecordDto(List.of(recordDto));
 
 		// Assert
 		assertNotNull(dto.getTitleDto());
@@ -32,7 +32,7 @@ class ResponseAgentDtoTest {
 
 		assertNotNull(dto.getRecordDto());
 		assertEquals(1, dto.getRecordDto().size());
-		assertSame(record, dto.getRecordDto().get(0));
+		assertSame(recordDto, dto.getRecordDto().get(0));
 	}
 
 	@Test

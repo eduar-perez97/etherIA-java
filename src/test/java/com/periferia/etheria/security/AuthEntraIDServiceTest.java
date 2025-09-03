@@ -96,7 +96,7 @@ class AuthEntraIDServiceTest {
 		UserException ex = assertThrows(UserException.class,
 				() -> authEntraID.authenticatorEntraID("y@example.com"));
 
-		assertTrue(ex.getMessage() != null);
+		assertNotNull(ex.getMessage());
 	}
 
 	@Test

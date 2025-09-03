@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +31,7 @@ import com.periferia.etheria.service.impl.RecordServiceImpl;
 import com.periferia.etheria.util.Response;
 
 @ExtendWith(MockitoExtension.class)
-public class RecordServiceTest {
+class RecordServiceTest {
 
 	@Mock
 	private RecordRepository recordRepository;
@@ -70,11 +71,11 @@ public class RecordServiceTest {
 		entity.setIdUser("1088976287");
 
 		List<RecordEntity> recordEntityList = new ArrayList<>();
-		RecordEntity record = new RecordEntity();
-		record.setId(1L);
-		record.setQuestion("Hola Claude, ayudame describiendo cuales son las ciudades principales del mundo");
-		record.setResponse("Las ciudades más importantes del mundo varían según el criterio utilizado, ya sea población, influencia económica, innovación o cultura, pero en general se destacan Tokio, Nueva York, Londres, París y Shanghái");
-		recordEntityList.add(record);
+		RecordEntity recordEntity = new RecordEntity();
+		recordEntity.setId(1L);
+		recordEntity.setQuestion("Hola Claude, ayudame describiendo cuales son las ciudades principales del mundo");
+		recordEntity.setResponse("Las ciudades más importantes del mundo varían según el criterio utilizado, ya sea población, influencia económica, innovación o cultura, pero en general se destacan Tokio, Nueva York, Londres, París y Shanghái");
+		recordEntityList.add(recordEntity);
 
 		entity.setRecordEntity(recordEntityList);
 		entityList.add(entity);
@@ -94,8 +95,11 @@ public class RecordServiceTest {
 	void testConsultRecordsInvalidToken() {
 		when(jwtService.validateToken("fake.jwt.token")).thenReturn(false);
 
-		UserException ex = assertThrows(UserException.class, () -> 
-		recordService.consultRecords(titleRecordDto.getIdUser(), "Bearer fake.jwt.token"));
+		Executable action = () -> recordService.consultRecords(
+				titleRecordDto.getIdUser(),
+				"Bearer fake.jwt.token");
+
+		UserException ex = assertThrows(UserException.class, action);
 
 		assertTrue(ex.getMessage().contains("Contraseña incorrecta"));
 	}
@@ -111,8 +115,9 @@ public class RecordServiceTest {
 
 	@Test
 	void testSaveRecordNullQuestion() {
-		UserException ex = assertThrows(UserException.class, () -> 
-		recordService.saveRecord(null, recordDto.getResponse()));
+		Executable action = () -> recordService.saveRecord(null, recordDto.getResponse());
+
+		UserException ex = assertThrows(UserException.class, action);
 
 		assertTrue(ex.getMessage().contains("Los datos son obligatorios"));
 	}

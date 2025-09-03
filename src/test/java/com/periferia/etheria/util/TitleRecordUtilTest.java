@@ -20,7 +20,7 @@ import com.periferia.etheria.entity.RecordEntity;
 import com.periferia.etheria.entity.TitleRecordEntity;
 
 @ExtendWith(MockitoExtension.class)
-public class TitleRecordUtilTest {
+class TitleRecordUtilTest {
 	private static MockedStatic<RecordUtil> recordUtilMock;
 
 	@BeforeAll
@@ -29,7 +29,7 @@ public class TitleRecordUtilTest {
 	}
 
 	@Test
-	void testConvertTitleRecordEntityToDto_NoRecords() {
+	void testConvertTitleRecordEntityToDtoNoRecords() {
 		TitleRecordEntity entity = new TitleRecordEntity();
 		entity.setId(1L);
 		entity.setTitle("Title 1");
@@ -51,7 +51,7 @@ public class TitleRecordUtilTest {
 	}
 
 	@Test
-	void testConvertTitleRecordEntityToDto_WithRecords() {
+	void testConvertTitleRecordEntityToDtoWithRecords() {
 		TitleRecordEntity entity = new TitleRecordEntity();
 		entity.setId(2L);
 		entity.setTitle("Title 2");

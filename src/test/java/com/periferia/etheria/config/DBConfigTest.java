@@ -45,7 +45,7 @@ class DBConfigTest {
 	}
 
 	@Test
-	void testGetConnection_Success() throws SQLException {
+	void testGetConnectionSuccess() {
 		driverManagerMock.when(() ->
 		DriverManager.getConnection(
 				eq("jdbc:postgresql://localhost:5432/testdb"),
@@ -61,7 +61,7 @@ class DBConfigTest {
 	}
 
 	@Test
-	void testGetConnection_Failure() throws Exception {
+	void testGetConnectionFailure() {
 		readSecretMock.when(() -> ReadSecret.getSecret("db_url"))
 		.thenReturn("jdbc:postgresql://localhost:5432/testdb");
 		readSecretMock.when(() -> ReadSecret.getSecret("username"))

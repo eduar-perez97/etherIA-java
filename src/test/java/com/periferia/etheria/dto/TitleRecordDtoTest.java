@@ -23,7 +23,7 @@ class TitleRecordDtoTest {
 		// Arrange
 		TitleRecordDto dto = new TitleRecordDto();
 		LocalDate now = LocalDate.now();
-		RecordDto record = new RecordDto(null, null, null);
+		RecordDto recordDto = new RecordDto(null, null, null);
 
 		// Act
 		dto.setId(1L);
@@ -32,7 +32,7 @@ class TitleRecordDtoTest {
 		dto.setIdUser("user123");
 		dto.setUuid("uuid-1234");
 		dto.setAgent("agentX");
-		dto.setRecordDto(List.of(record));
+		dto.setRecordDto(List.of(recordDto));
 
 		// Assert
 		assertEquals(1L, dto.getId());
@@ -43,7 +43,7 @@ class TitleRecordDtoTest {
 		assertEquals("agentX", dto.getAgent());
 		assertNotNull(dto.getRecordDto());
 		assertEquals(1, dto.getRecordDto().size());
-		assertSame(record, dto.getRecordDto().get(0));
+		assertSame(recordDto, dto.getRecordDto().get(0));
 	}
 
 	@Test

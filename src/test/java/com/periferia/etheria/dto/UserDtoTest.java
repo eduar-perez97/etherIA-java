@@ -20,7 +20,7 @@ class UserDtoTest {
 	@Test
 	void testGettersAndSetters() {
 		UserDto dto = new UserDto();
-		RecordDto record = new RecordDto(null, null, null);
+		RecordDto recordDto = new RecordDto(null, null, null);
 
 		dto.setCedula("12345");
 		dto.setIdUser("u001");
@@ -32,7 +32,7 @@ class UserDtoTest {
 		dto.setRole("ADMIN");
 		dto.setImage("profile.png");
 		dto.setAuthType("ENTRA");
-		dto.setRecordDto(List.of(record));
+		dto.setRecordDto(List.of(recordDto));
 
 		assertEquals("12345", dto.getCedula());
 		assertEquals("u001", dto.getIdUser());
